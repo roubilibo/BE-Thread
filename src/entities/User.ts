@@ -52,15 +52,15 @@ export class User {
 	})
 	replies: Reply[];
 
-	@OneToMany(() => Following, (follows) => follows.user, {
+	@OneToMany(() => Following, (follows) => follows.following, {
 		onDelete: "CASCADE",
 		onUpdate: "CASCADE",
 	})
 	following: Following[];
 
-	@OneToMany(() => Following, (follows) => follows.userd, {
+	@OneToMany(() => Following, (follows) => follows.follower, {
 		onDelete: "CASCADE",
 		onUpdate: "CASCADE",
 	})
-	follower: Following[];
+	followers: Following[];
 }

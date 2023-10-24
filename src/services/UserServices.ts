@@ -73,6 +73,19 @@ class UserServices {
 			return res.status(400).json({ error: error.details[0].message });
 		}
 	}
+
+	async delete(req: Request, res: Response): Promise<Response> {
+		try {
+			const id = parseInt(req.params.id);
+			const user = await this.UserRepository.findOne({
+				where: { id: id },
+			});
+			const deleteUser = await this.UserRepository.remove(user);
+			return res.status(200).json(deleteUser);
+		} catch (error) {
+			return res.status(400).json({ error: error.details[0].message });
+		}
+	}
 }
 
 export default new UserServices();

@@ -20,12 +20,12 @@ export class Following {
 		onDelete: "CASCADE",
 	})
 	@JoinColumn({ name: "following_id" })
-	user: User;
-	
-	@ManyToOne(() => User, (user) => user.following, {
+	following: User;
+
+	@ManyToOne(() => User, (user) => user.followers, {
 		onUpdate: "CASCADE",
 		onDelete: "CASCADE",
 	})
 	@JoinColumn({ name: "follower_id" })
-	userd: User;
+	follower: User;
 }

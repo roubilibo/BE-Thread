@@ -14,6 +14,9 @@ class UserControllers {
 	update(req: Request, res: Response) {
 		UserServices.update(req, res);
 	}
+		delete(req: Request, res: Response) {
+			UserServices.delete(req, res);
+		}
 }
 
 export default new UserControllers();
