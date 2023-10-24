@@ -1,18 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Thread } from "./Thread";
 
-@Entity()
+@Entity({ name: "user" })
 export class User {
+	@PrimaryGeneratedColumn()
+	id: number;
 
-    @PrimaryGeneratedColumn()
-    id: number
+	@Column()
+	fullName: string;
 
-    @Column()
-    firstName: string
+	@Column()
+	username: string;
 
-    @Column()
-    lastName: string
+	@Column()
+	email: string;
 
-    @Column()
-    age: number
+	@Column()
+	password: string;
 
+	@Column()
+	profile_picture: string;
+
+	@Column({ nullable: true })
+	profile_description: string;
+
+	@OneToMany(() => Thread, (thread) => thread.user, {
+		onUpdate: "CASCADE",
+		onDelete: "CASCADE",
+	})
+	threads: Thread[];
 }

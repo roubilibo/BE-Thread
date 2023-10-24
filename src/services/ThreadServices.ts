@@ -10,7 +10,16 @@ class ThreadServices {
 
 	async find(req: Request, res: Response): Promise<Response> {
 		try {
-			const threads = await this.ThreadRepository.find();
+			const threads = await this.ThreadRepository.find({
+				relations: ["user"],
+				select: {
+					user: {
+						id: true,
+						fullName: true,
+						email: true,
+					},
+				},
+			});
 			return res.status(200).json(threads);
 		} catch (error) {
 			res.status(500).json({ error: "error while getting threads" });
@@ -29,6 +38,7 @@ class ThreadServices {
 			const thread = this.ThreadRepository.create({
 				content: value.content,
 				image: value.image,
+				user: value.user,
 			});
 			const createThread = await this.ThreadRepository.save(thread);
 			return res.status(200).json(createThread);
