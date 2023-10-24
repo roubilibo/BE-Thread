@@ -14,6 +14,9 @@ class ThreadControllers {
 	update(req: Request, res: Response) {
 		ThreadServices.update(req, res);
 	}
+	delete(req: Request, res: Response) {
+		ThreadServices.delete(req, res);
+	}
 }
 
 export default new ThreadControllers();

@@ -2,7 +2,10 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Thread } from "../entities/Thread";
 import { Response, Request } from "express";
-import { createTHreadSchema } from "../utils/Validator/Threads";
+import {
+	createTHreadSchema,
+	updateTHreadSchema,
+} from "../utils/Validator/Threads";
 
 class ThreadServices {
 	private readonly ThreadRepository: Repository<Thread> =
@@ -66,7 +69,7 @@ class ThreadServices {
 				where: { id: id },
 			});
 			const data = req.body;
-			const { error, value } = createTHreadSchema.validate(data);
+			const { error, value } = updateTHreadSchema.validate(data);
 			if (error) {
 				return res.status(400).json({ error: error.details[0].message });
 			}
@@ -76,6 +79,19 @@ class ThreadServices {
 			return res.status(200).json(updateThread);
 		} catch (error) {
 			res.status(500).json({ error: "error while updating thread" });
+		}
+	}
+
+	async delete(req: Request, res: Response): Promise<Response> {
+		try {
+			const id = parseInt(req.params.id);
+			const thread = await this.ThreadRepository.findOne({
+				where: { id: id },
+			});
+			const deleteThread = await this.ThreadRepository.delete(thread);
+			return res.status(200).json(deleteThread);
+		} catch (error) {
+			res.status(500).json({ error: "error while deleting thread" });
 		}
 	}
 }
