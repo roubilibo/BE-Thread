@@ -25,12 +25,12 @@ class UserServices {
 				return res.status(400).json({ error: error.details[0].message });
 			}
 			const user = this.UserRepository.create({
-				fullName: value.fullName,
 				username: value.username,
+				fullname: value.fullname,
 				email: value.email,
 				password: value.password,
 				profile_picture: value.profile_picture,
-				profile_description: value.profile_description,
+				bio: value.bio,
 			});
 			const createUser = await this.UserRepository.save(user);
 			return res.status(200).json(createUser);
@@ -61,12 +61,12 @@ class UserServices {
 			const user = await this.UserRepository.findOne({
 				where: { id: id },
 			});
-			user.fullName = value.fullName;
+			user.fullname = value.fullname;
 			user.username = value.username;
 			user.email = value.email;
 			user.password = value.password;
 			user.profile_picture = value.profile_picture;
-			user.profile_description = value.profile_description;
+			user.bio = value.bio;
 			const updateUser = await this.UserRepository.save(user);
 			return res.status(200).json(updateUser);
 		} catch (error) {

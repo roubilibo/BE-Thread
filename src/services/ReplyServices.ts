@@ -18,7 +18,7 @@ class ReplysServices {
 					},
 					user: {
 						id: true,
-						fullName: true,
+						fullname: true,
 						email: true,
 					},
 				},

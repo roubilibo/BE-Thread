@@ -18,7 +18,7 @@ class ThreadServices {
 				select: {
 					user: {
 						id: true,
-						fullName: true,
+						fullname: true,
 						email: true,
 					},
 				},

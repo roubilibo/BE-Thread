@@ -12,10 +12,10 @@ export const updateTHreadSchema = Joi.object({
 });
 
 export const createUserSchema = Joi.object({
-	fullName: Joi.string().required(),
 	username: Joi.string().required(),
+	fullname: Joi.string().required(),
 	email: Joi.string().required(),
 	password: Joi.string().required(),
 	profile_picture: Joi.string(),
-	profile_description: Joi.string(),
+	bio: Joi.string(),
 });
