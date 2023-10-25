@@ -11,6 +11,12 @@ class ReplyControllers {
 	create(req: Request, res: Response) {
 		ReplyServices.create(req, res);
 	}
+	update(req: Request, res: Response) {
+		ReplyServices.update(req, res);
+	}
+	delete(req: Request, res: Response) {
+		ReplyServices.delete(req, res);
+	}
 }
 
 export default new ReplyControllers();

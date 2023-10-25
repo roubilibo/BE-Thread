@@ -30,8 +30,6 @@ class LikeServices {
 		}
 	}
 
-	async update 
-
 }
 
 export default new LikeServices();
