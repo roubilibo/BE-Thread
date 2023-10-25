@@ -4,63 +4,63 @@ import {
 	Column,
 	OneToMany,
 	CreateDateColumn,
-	JoinColumn,
+	UpdateDateColumn,
+	ManyToMany,
+	JoinTable,
 } from "typeorm";
 import { Thread } from "./Thread";
 import { Like } from "./Like";
 import { Reply } from "./Reply";
-import { Following } from "./Following";
 
 @Entity({ name: "user" })
 export class User {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
-	fullName: string;
-
-	@Column()
+	@Column({ length: 50 })
 	username: string;
 
-	@Column()
+	@Column({ length: 100 })
+	fullname: string;
+
+	@Column({ length: 50 })
 	email: string;
 
-	@Column()
+	@Column({ type: "text", select: false })
 	password: string;
 
-	@Column()
+	@Column({ type: "text" })
 	profile_picture: string;
 
-	@Column({ nullable: true })
-	profile_description: string;
+	@Column({ length: 250 })
+	bio: string;
 
-	@OneToMany(() => Thread, (thread) => thread.user, {
-		onUpdate: "CASCADE",
-		onDelete: "CASCADE",
-	})
+	@CreateDateColumn({ type: "timestamp with time zone" })
+	created_at: Date;
+
+	@UpdateDateColumn({ type: "timestamp with time zone" })
+	updated_at: Date;
+
+	@OneToMany(() => Thread, (thread) => thread.user)
 	threads: Thread[];
 
-	@OneToMany(() => Like, (likes) => likes.user, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
-	})
+	@OneToMany(() => Like, (like) => like.user)
 	likes: Like[];
 
-	@OneToMany(() => Reply, (replies) => replies.user, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
-	})
+	@OneToMany(() => Reply, (reply) => reply.user)
 	replies: Reply[];
 
-	@OneToMany(() => Following, (follows) => follows.following, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
+	@ManyToMany(() => User, (user) => user.users)
+	@JoinTable({
+		name: "following",
+		joinColumn: {
+			name: "following_id",
+			referencedColumnName: "id",
+		},
+		inverseJoinColumn: {
+			name: "follower_id",
+			referencedColumnName: "id",
+		},
 	})
-	following: Following[];
-
-	@OneToMany(() => Following, (follows) => follows.follower, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
-	})
-	followers: Following[];
+	users: User[];
 }

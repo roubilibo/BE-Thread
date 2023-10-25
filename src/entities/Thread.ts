@@ -6,6 +6,7 @@ import {
 	OneToMany,
 	JoinColumn,
 	CreateDateColumn,
+	UpdateDateColumn,
 } from "typeorm";
 import { User } from "./User";
 import { Like } from "./Like";
@@ -16,31 +17,28 @@ export class Thread {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ nullable: true })
+	@Column({ length: 500 })
 	content: string;
 
-	@Column({ nullable: true })
+	@Column({ type: "text" })
 	image: string;
 
 	@CreateDateColumn({ type: "timestamp with time zone" })
-	postedAt: Date;
+	created_at: Date;
+
+	@UpdateDateColumn({ type: "timestamp with time zone" })
+	updated_at: Date;
 
 	@ManyToOne(() => User, (user) => user.threads, {
 		onUpdate: "CASCADE",
 		onDelete: "CASCADE",
 	})
-	@JoinColumn({ name: "created_by" })
+	@JoinColumn({ name: "user_id" }) // untuk membuat foreignkey
 	user: User;
 
-	@OneToMany(() => Like, (likes) => likes.thread, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
-	})
+	@OneToMany(() => Like, (like) => like.thread)
 	likes: Like[];
 
-	@OneToMany(() => Reply, (replies) => replies.thread, {
-		onDelete: "CASCADE",
-		onUpdate: "CASCADE",
-	})
+	@OneToMany(() => Reply, (reply) => reply.thread)
 	replies: Reply[];
 }
