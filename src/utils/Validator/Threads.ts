@@ -31,3 +31,8 @@ export const updateReplySchema = Joi.object({
 	content: Joi.string(),
 	image: Joi.string().allow(null),
 });
+
+export const likeSchema = Joi.object({
+	user: Joi.number(),
+	thread: Joi.number(),
+});

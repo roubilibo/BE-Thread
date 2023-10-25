@@ -8,6 +8,12 @@ class ReplyControllers {
 	findOne(req: Request, res: Response) {
 		LikeServices.findOne(req, res);
 	}
+	create(req: Request, res: Response) {
+		LikeServices.create(req, res);
+	}
+	delete(req: Request, res: Response) {
+		LikeServices.delete(req, res);
+	}
 }
 
 export default new ReplyControllers();

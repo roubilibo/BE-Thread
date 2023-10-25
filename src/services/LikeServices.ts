@@ -3,6 +3,7 @@ import { Like } from "../entities/Like";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
 import { REPLCommand } from "repl";
+import { likeSchema } from "../utils/Validator/Threads";
 class LikeServices {
 	private readonly LikeRepository: Repository<Like> =
 		AppDataSource.getRepository(Like);
@@ -12,7 +13,7 @@ class LikeServices {
 			const likes = await this.LikeRepository.find({
 				relations: ["thread", "user"],
 			});
-			return res.status(200).send(likes);
+			return res.status(200).json(likes);
 		} catch (error) {
 			res.status(500).json({ error: "error while getting likes" });
 		}
@@ -24,12 +25,48 @@ class LikeServices {
 				where: { id: id },
 				relations: ["thread", "user"],
 			});
-			return res.status(200).send(like);
+			return res.status(200).json(like);
 		} catch (error) {
-			return res.status(500).send(error)
+			return res.status(500).json(error);
 		}
 	}
 
+	async create(req: Request, res: Response): Promise<Response> {
+		try {
+			const data = req.body;
+			const { error, value } = likeSchema.validate(data);
+			if (error) {
+				return res.status(400).json({ error: error.details[0].message });
+			}
+			const like = this.LikeRepository.create({
+				user: value.user,
+				thread: value.thread,
+			});
+			const createLike = await this.LikeRepository.save(like);
+			return res.status(200).json(createLike);
+		} catch (error) {
+			console.log(error);
+			return res.status(500).json({ error: "error while updating reply" });
+		}
+	}
+
+	async delete(req: Request, res: Response): Promise<Response> {
+		try {
+			const id = Number(req.params.id);
+			const like = await this.LikeRepository.findOne({
+				where: { id: id },
+				relations: ["thread", "user"],
+			});
+			if (!like) {
+				return res.status(404).json("Like not found");
+			}
+			const likeDeleted = await this.LikeRepository.remove(like);
+			return res.status(200).json(likeDeleted);
+		} catch (error) {
+			console.log(error);
+			return res.status(500).json(error);
+		}
+	}
 }
 
 export default new LikeServices();
