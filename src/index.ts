@@ -1,8 +1,8 @@
 import { AppDataSource } from "./data-source";
 import * as express from "express";
-import router from "./route/Thread";
-import UserRouter from "./route/User";
-import ReplyRouter from "./route/Reply";
+import router from "./routes/Thread";
+import UserRouter from "./routes/User";
+import ReplyRouter from "./routes/Reply";
 import * as cors from "cors";
 
 AppDataSource.initialize()

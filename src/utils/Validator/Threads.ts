@@ -19,3 +19,10 @@ export const createUserSchema = Joi.object({
 	profile_picture: Joi.string(),
 	bio: Joi.string(),
 });
+
+export const createReplySchema = Joi.object({
+	thread_id: Joi.number(),
+	user_id: Joi.number(),
+	content: Joi.string(),
+	image: Joi.string().allow(null),
+});
