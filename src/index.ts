@@ -4,6 +4,7 @@ import router from "./routes/Thread";
 import UserRouter from "./routes/User";
 import ReplyRouter from "./routes/Reply";
 import * as cors from "cors";
+import LikeRouter from "./routes/Like";
 
 AppDataSource.initialize()
 	.then(async () => {
@@ -23,6 +24,7 @@ AppDataSource.initialize()
 		app.use("/api/v1", router);
 		app.use("/api/v1", UserRouter);
 		app.use("/api/v1", ReplyRouter);
+		app.use("/api/v1", LikeRouter);
 
 		app.listen(port, () => `Server started on port ${port}`);
 	})
