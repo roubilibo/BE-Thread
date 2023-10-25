@@ -2,7 +2,6 @@ import { Repository } from "typeorm";
 import { Like } from "../entities/Like";
 import { AppDataSource } from "../data-source";
 import { Request, Response } from "express";
-import { REPLCommand } from "repl";
 import { likeSchema } from "../utils/Validator/Threads";
 class LikeServices {
 	private readonly LikeRepository: Repository<Like> =
